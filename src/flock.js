@@ -13,6 +13,8 @@ export const DEFAULT_PARAMS = {
   wrap: true,
 };
 
+const DEFAULT_OBSTACLE_RADIUS = 20;
+
 function spawnBoid(bounds) {
   const x = Math.random() * bounds.width;
   const y = Math.random() * bounds.height;
@@ -21,10 +23,24 @@ function spawnBoid(bounds) {
 }
 
 export class Flock {
-  constructor(count, bounds, params = {}) {
+  constructor(count, bounds, params = {}, obstacles = []) {
     this.bounds = bounds;
     this.params = { ...DEFAULT_PARAMS, ...params };
     this.boids = Array.from({ length: count }, () => spawnBoid(bounds));
+    this.obstacles = obstacles.map((obstacle) => ({ ...obstacle }));
+  }
+
+  /**
+   * Drops a static obstacle at (x, y) for boids to steer around (see
+   * Boid#_applyObstacles). Obstacles persist until clearObstacles() is
+   * called — they aren't reset by resizing or stepping the flock.
+   */
+  addObstacle(x, y, radius = DEFAULT_OBSTACLE_RADIUS) {
+    this.obstacles.push({ x, y, radius });
+  }
+
+  clearObstacles() {
+    this.obstacles.length = 0;
   }
 
   /**
@@ -56,7 +72,7 @@ export class Flock {
 
     const accelerations = this.boids.map((boid) => {
       const neighbors = grid.queryNear(boid.position, this.params.perceptionRadius);
-      return boid.computeAcceleration(neighbors, this.params, pointer);
+      return boid.computeAcceleration(neighbors, this.params, pointer, this.obstacles);
     });
     this.boids.forEach((boid, i) => boid.update(accelerations[i], this.params, this.bounds));
   }
