@@ -8,6 +8,7 @@ export default [
         document: 'readonly',
         window: 'readonly',
         requestAnimationFrame: 'readonly',
+        performance: 'readonly',
       },
     },
     rules: {
