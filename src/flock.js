@@ -7,6 +7,7 @@ const DEFAULT_PARAMS = {
   separationWeight: 1.5,
   alignmentWeight: 1.0,
   cohesionWeight: 1.0,
+  pointerWeight: 0.05,
   wrap: true,
 };
 
@@ -42,11 +43,12 @@ export class Flock {
   /**
    * Naive O(n^2) neighbor search. Fine up to a few hundred boids; the
    * spatial-grid optimization in the backlog replaces this without changing
-   * the Boid/Flock interface.
+   * the Boid/Flock interface. `pointer`, if active, additionally steers
+   * every boid toward or away from it (see Boid#_applyPointer).
    */
-  step() {
+  step(pointer) {
     const accelerations = this.boids.map((boid) =>
-      boid.computeAcceleration(this.boids, this.params)
+      boid.computeAcceleration(this.boids, this.params, pointer)
     );
     this.boids.forEach((boid, i) => boid.update(accelerations[i], this.params, this.bounds));
   }
