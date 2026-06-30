@@ -1,4 +1,5 @@
 import { Boid } from './boid.js';
+import { SpatialGrid } from './grid.js';
 
 export const DEFAULT_PARAMS = {
   perceptionRadius: 50,
@@ -41,15 +42,21 @@ export class Flock {
   }
 
   /**
-   * Naive O(n^2) neighbor search. Fine up to a few hundred boids; the
-   * spatial-grid optimization in the backlog replaces this without changing
-   * the Boid/Flock interface. `pointer`, if active, additionally steers
-   * every boid toward or away from it (see Boid#_applyPointer).
+   * Buckets boids into a spatial grid sized to the current perception
+   * radius so each boid only scans nearby cells instead of the whole flock
+   * (was a naive O(n^2) scan). `Boid#computeAcceleration` still does the
+   * exact-distance filtering, so the Boid/Flock interface is unchanged.
+   * `pointer`, if active, additionally steers every boid toward or away
+   * from it (see Boid#_applyPointer).
    */
   step(pointer) {
-    const accelerations = this.boids.map((boid) =>
-      boid.computeAcceleration(this.boids, this.params, pointer)
-    );
+    const cellSize = Math.max(this.params.perceptionRadius, 1);
+    const grid = SpatialGrid.buildFor(this.boids, cellSize);
+
+    const accelerations = this.boids.map((boid) => {
+      const neighbors = grid.queryNear(boid.position, this.params.perceptionRadius);
+      return boid.computeAcceleration(neighbors, this.params, pointer);
+    });
     this.boids.forEach((boid, i) => boid.update(accelerations[i], this.params, this.bounds));
   }
 }
