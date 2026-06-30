@@ -30,7 +30,7 @@ each should be small enough to land as one focused PR.
 - [x] Benchmark and tune for 300+ boids at a steady 60fps on a mid-range laptop.
 - [x] Add a debug overlay that optionally renders each boid's perception radius and
       velocity vector.
-- [ ] Add named presets (e.g. "tight schooling fish", "loose starlings", "chaotic swarm")
+- [x] Add named presets (e.g. "tight schooling fish", "loose starlings", "chaotic swarm")
       that set all sliders at once via a dropdown.
 - [ ] Add unit tests for alignment and cohesion edge cases (single neighbor, all neighbors
       at the same position, neighbors exactly at the perception-radius boundary).
