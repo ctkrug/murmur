@@ -25,6 +25,21 @@ export class Flock {
   }
 
   /**
+   * Add or remove boids to match `count` without resetting the rest of the
+   * flock, so a flock-size slider can be adjusted live.
+   */
+  setSize(count) {
+    const diff = count - this.boids.length;
+    if (diff > 0) {
+      for (let i = 0; i < diff; i += 1) {
+        this.boids.push(spawnBoid(this.bounds));
+      }
+    } else if (diff < 0) {
+      this.boids.length = count;
+    }
+  }
+
+  /**
    * Naive O(n^2) neighbor search. Fine up to a few hundred boids; the
    * spatial-grid optimization in the backlog replaces this without changing
    * the Boid/Flock interface.
