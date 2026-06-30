@@ -1,6 +1,6 @@
 import { Boid } from './boid.js';
 
-const DEFAULT_PARAMS = {
+export const DEFAULT_PARAMS = {
   perceptionRadius: 50,
   maxSpeed: 3,
   maxForce: 0.1,
