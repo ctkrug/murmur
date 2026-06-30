@@ -8,6 +8,7 @@ const PARAMS = {
   separationWeight: 1.5,
   alignmentWeight: 1,
   cohesionWeight: 1,
+  obstacleWeight: 2,
   wrap: true,
 };
 
@@ -65,5 +66,36 @@ describe('Boid', () => {
     const pointer = { active: false, mode: 'attract', position: { x: 100, y: 0 } };
     const accel = boid.computeAcceleration([boid], { ...PARAMS, pointerWeight: 0.2 }, pointer);
     expect(accel).toEqual({ x: 0, y: 0 });
+  });
+
+  it('steers away from a nearby obstacle', () => {
+    const boid = new Boid(0, 0, 0, 0);
+    const obstacle = { x: 20, y: 0, radius: 10 };
+    const accel = boid.computeAcceleration([boid], PARAMS, null, [obstacle]);
+    expect(accel.x).toBeLessThan(0);
+  });
+
+  it('ignores an obstacle outside its avoidance radius', () => {
+    const boid = new Boid(0, 0, 0, 0);
+    const obstacle = { x: 500, y: 0, radius: 10 };
+    const accel = boid.computeAcceleration([boid], PARAMS, null, [obstacle]);
+    expect(accel).toEqual({ x: 0, y: 0 });
+  });
+
+  it('steers harder away from an obstacle it is deeper inside', () => {
+    const params = { ...PARAMS, maxForce: 100 };
+    const closeBoid = new Boid(0, 0, 0, 0);
+    const farBoid = new Boid(0, 0, 0, 0);
+    const obstacle = { x: 20, y: 0, radius: 10 };
+
+    const closeAccel = closeBoid.computeAcceleration([closeBoid], params, null, [obstacle]);
+    const farAccel = farBoid.computeAcceleration(
+      [farBoid],
+      params,
+      null,
+      [{ ...obstacle, x: 35 }]
+    );
+
+    expect(Math.abs(closeAccel.x)).toBeGreaterThan(Math.abs(farAccel.x));
   });
 });
