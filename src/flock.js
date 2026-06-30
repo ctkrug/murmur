@@ -10,16 +10,18 @@ const DEFAULT_PARAMS = {
   wrap: true,
 };
 
+function spawnBoid(bounds) {
+  const x = Math.random() * bounds.width;
+  const y = Math.random() * bounds.height;
+  const angle = Math.random() * Math.PI * 2;
+  return new Boid(x, y, Math.cos(angle), Math.sin(angle));
+}
+
 export class Flock {
   constructor(count, bounds, params = {}) {
     this.bounds = bounds;
     this.params = { ...DEFAULT_PARAMS, ...params };
-    this.boids = Array.from({ length: count }, () => {
-      const x = Math.random() * bounds.width;
-      const y = Math.random() * bounds.height;
-      const angle = Math.random() * Math.PI * 2;
-      return new Boid(x, y, Math.cos(angle), Math.sin(angle));
-    });
+    this.boids = Array.from({ length: count }, () => spawnBoid(bounds));
   }
 
   /**
