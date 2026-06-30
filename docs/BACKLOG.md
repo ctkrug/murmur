@@ -5,21 +5,21 @@ each should be small enough to land as one focused PR.
 
 ## Epic 1: Interactive controls
 
-- [ ] Build a control panel (HTML range inputs) for perception radius, max speed, max
+- [x] Build a control panel (HTML range inputs) for perception radius, max speed, max
       force, and the three rule weights, bound live to the running simulation's params.
-- [ ] Add a flock-size slider that adds/removes boids without resetting the simulation.
-- [ ] Add pause / step-one-frame / reset buttons.
-- [ ] Add an FPS readout and a boid-count readout.
-- [ ] Persist the current slider values to `localStorage` so a reload restores the last
+- [x] Add a flock-size slider that adds/removes boids without resetting the simulation.
+- [x] Add pause / step-one-frame / reset buttons.
+- [x] Add an FPS readout and a boid-count readout.
+- [x] Persist the current slider values to `localStorage` so a reload restores the last
       configuration.
 
 ## Epic 2: World interaction and modes
 
-- [ ] Add mouse/touch tracking and an "attract" mode where the flock steers toward the
+- [x] Add mouse/touch tracking and an "attract" mode where the flock steers toward the
       cursor.
-- [ ] Add a "repel" mode (and a way to toggle attract/repel) where the flock steers away
+- [x] Add a "repel" mode (and a way to toggle attract/repel) where the flock steers away
       from the cursor.
-- [ ] Add a toggle between toroidal (wrap-around) and bounded (steer-away-from-edge) world
+- [x] Add a toggle between toroidal (wrap-around) and bounded (steer-away-from-edge) world
       modes.
 - [ ] Add click-to-drop static obstacles that boids steer around.
 
