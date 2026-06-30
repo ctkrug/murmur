@@ -38,8 +38,8 @@ simulation is small enough to read end to end in one sitting.
 
 ## Status
 
-Early scaffold — see [`docs/VISION.md`](docs/VISION.md) for the design and
-[`docs/BACKLOG.md`](docs/BACKLOG.md) for the planned build order.
+Core simulation and control panel are functional — see [`docs/VISION.md`](docs/VISION.md) for
+the design and [`docs/BACKLOG.md`](docs/BACKLOG.md) for the remaining build order.
 
 ## Running locally
 
@@ -49,6 +49,20 @@ server:
 ```sh
 npx serve .
 ```
+
+## Using the control panel
+
+- **Rules** — perception radius, max speed, max force, and the separation/alignment/cohesion
+  weights are all live sliders; changes apply on the next simulation frame.
+- **Flock** — the flock-size slider grows or shrinks the population without resetting existing
+  boids, and "Wrap around edges" toggles between toroidal and bounded world modes.
+- **Pointer** — hover (or touch) the canvas to attract or repel the flock toward the cursor;
+  switch modes (or turn it off) from the dropdown, and tune the pull/push strength with the
+  pointer-strength slider.
+- **Playback** — Pause/Resume stops and restarts the simulation loop, Step advances exactly one
+  frame while paused, and Reset rebuilds the flock at the current size and params.
+- All control panel values persist to `localStorage`, so a reload restores your last
+  configuration.
 
 ## Running tests
 
