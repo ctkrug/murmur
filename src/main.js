@@ -1,6 +1,10 @@
-import { Flock } from './flock.js';
+import { Flock, DEFAULT_PARAMS } from './flock.js';
 import { drawFlock } from './render.js';
 import { FpsCounter } from './fps.js';
+import { loadParams, saveParams } from './storage.js';
+
+const SIZE_STORAGE_KEY = 'boids-playground:size';
+const DEFAULT_FLOCK_SIZE = 150;
 
 const SLIDER_IDS = [
   'perceptionRadius',
@@ -24,6 +28,7 @@ function bindSliders(state) {
     input.addEventListener('input', () => {
       state.flock.params[id] = Number(input.value);
       if (output) output.textContent = input.value;
+      state.persist();
     });
   }
 }
@@ -39,6 +44,7 @@ function bindFlockSize(state) {
   input.addEventListener('input', () => {
     state.flock.setSize(Number(input.value));
     if (output) output.textContent = input.value;
+    state.persist();
   });
 }
 
@@ -49,6 +55,7 @@ function bindWorldMode(state) {
   input.checked = state.flock.params.wrap;
   input.addEventListener('change', () => {
     state.flock.params.wrap = input.checked;
+    state.persist();
   });
 }
 
@@ -135,13 +142,20 @@ function main() {
   const ctx = canvas.getContext('2d');
   const bounds = { width: canvas.width, height: canvas.height };
 
+  const storedParams = loadParams(window.localStorage, DEFAULT_PARAMS);
+  const storedSize = Number(window.localStorage.getItem(SIZE_STORAGE_KEY)) || DEFAULT_FLOCK_SIZE;
+
   const state = {
     bounds,
-    flock: new Flock(150, bounds),
+    flock: new Flock(storedSize, bounds, storedParams),
     running: true,
     pointer: { active: false, mode: 'attract', position: { x: 0, y: 0 } },
     draw() {
       drawFlock(ctx, this.flock);
+    },
+    persist() {
+      saveParams(window.localStorage, this.flock.params);
+      window.localStorage.setItem(SIZE_STORAGE_KEY, String(this.flock.boids.length));
     },
   };
 
