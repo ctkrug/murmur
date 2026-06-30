@@ -28,7 +28,7 @@ each should be small enough to land as one focused PR.
 - [x] Replace the naive O(n²) neighbor search in `Flock.step()` with a spatial grid,
       keeping the `Boid`/`Flock` public interface unchanged.
 - [x] Benchmark and tune for 300+ boids at a steady 60fps on a mid-range laptop.
-- [ ] Add a debug overlay that optionally renders each boid's perception radius and
+- [x] Add a debug overlay that optionally renders each boid's perception radius and
       velocity vector.
 - [ ] Add named presets (e.g. "tight schooling fish", "loose starlings", "chaotic swarm")
       that set all sliders at once via a dropdown.
