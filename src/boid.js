@@ -33,22 +33,22 @@ export class Boid {
       cohesion.y += other.position.y;
     }
 
-    if (count === 0) return { x: 0, y: 0 };
+    const steer = { x: 0, y: 0 };
 
-    const avgAlignment = scale(alignment, 1 / count);
-    const avgCohesionTarget = scale(cohesion, 1 / count);
-    const cohesionForce = sub(avgCohesionTarget, this.position);
+    if (count > 0) {
+      const avgAlignment = scale(alignment, 1 / count);
+      const avgCohesionTarget = scale(cohesion, 1 / count);
+      const cohesionForce = sub(avgCohesionTarget, this.position);
 
-    const steer = {
-      x:
+      steer.x =
         separation.x * params.separationWeight +
         avgAlignment.x * params.alignmentWeight +
-        cohesionForce.x * params.cohesionWeight,
-      y:
+        cohesionForce.x * params.cohesionWeight;
+      steer.y =
         separation.y * params.separationWeight +
         avgAlignment.y * params.alignmentWeight +
-        cohesionForce.y * params.cohesionWeight,
-    };
+        cohesionForce.y * params.cohesionWeight;
+    }
 
     this._applyPointer(steer, params, pointer);
 
