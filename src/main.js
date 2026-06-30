@@ -27,6 +27,20 @@ function bindSliders(flock) {
   }
 }
 
+function bindFlockSize(flock) {
+  const input = document.getElementById('flockSize');
+  const output = document.getElementById('flockSizeValue');
+  if (!input) return;
+
+  input.value = flock.boids.length;
+  if (output) output.textContent = input.value;
+
+  input.addEventListener('input', () => {
+    flock.setSize(Number(input.value));
+    if (output) output.textContent = input.value;
+  });
+}
+
 function main() {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
@@ -34,6 +48,7 @@ function main() {
 
   const flock = new Flock(150, bounds);
   bindSliders(flock);
+  bindFlockSize(flock);
 
   function loop() {
     flock.step();
