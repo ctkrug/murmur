@@ -56,7 +56,7 @@ function bindPlaybackControls(state, updateReadouts) {
 
   if (stepBtn) {
     stepBtn.addEventListener('click', () => {
-      state.flock.step();
+      state.flock.step(state.pointer);
       state.draw();
       updateReadouts(performance.now());
     });
@@ -67,6 +67,45 @@ function bindPlaybackControls(state, updateReadouts) {
       state.flock = new Flock(state.flock.boids.length, state.bounds, state.flock.params);
     });
   }
+}
+
+function bindPointer(state, canvas) {
+  const modeSelect = document.getElementById('pointerMode');
+
+  function setPosition(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    state.pointer.position = { x: clientX - rect.left, y: clientY - rect.top };
+    state.pointer.active = !modeSelect || modeSelect.value !== 'off';
+  }
+
+  if (modeSelect) {
+    state.pointer.mode = modeSelect.value;
+    modeSelect.addEventListener('change', () => {
+      state.pointer.mode = modeSelect.value;
+      state.pointer.active = modeSelect.value !== 'off' && state.pointer.active;
+    });
+  }
+
+  canvas.addEventListener('mousemove', (event) => {
+    setPosition(event.clientX, event.clientY);
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    state.pointer.active = false;
+  });
+
+  canvas.addEventListener(
+    'touchmove',
+    (event) => {
+      if (event.touches.length === 0) return;
+      setPosition(event.touches[0].clientX, event.touches[0].clientY);
+    },
+    { passive: true }
+  );
+
+  canvas.addEventListener('touchend', () => {
+    state.pointer.active = false;
+  });
 }
 
 function bindReadouts(state) {
@@ -90,6 +129,7 @@ function main() {
     bounds,
     flock: new Flock(150, bounds),
     running: true,
+    pointer: { active: false, mode: 'attract', position: { x: 0, y: 0 } },
     draw() {
       drawFlock(ctx, this.flock);
     },
@@ -97,11 +137,12 @@ function main() {
 
   bindSliders(state);
   bindFlockSize(state);
+  bindPointer(state, canvas);
   const updateReadouts = bindReadouts(state);
   bindPlaybackControls(state, updateReadouts);
 
   function loop(timestampMs) {
-    if (state.running) state.flock.step();
+    if (state.running) state.flock.step(state.pointer);
     state.draw();
     updateReadouts(timestampMs);
     requestAnimationFrame(loop);
