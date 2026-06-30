@@ -21,7 +21,7 @@ each should be small enough to land as one focused PR.
       from the cursor.
 - [x] Add a toggle between toroidal (wrap-around) and bounded (steer-away-from-edge) world
       modes.
-- [ ] Add click-to-drop static obstacles that boids steer around.
+- [x] Add click-to-drop static obstacles that boids steer around.
 
 ## Epic 3: Performance and presets
 
