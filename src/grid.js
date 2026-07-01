@@ -4,7 +4,10 @@
 
 export class SpatialGrid {
   constructor(cellSize) {
-    this.cellSize = cellSize;
+    // A non-positive or non-finite cellSize would divide-by-zero (or
+    // NaN-out) every cell lookup below, so clamp to a sane minimum here
+    // rather than trusting every caller to pass a valid size.
+    this.cellSize = Number.isFinite(cellSize) && cellSize > 0 ? cellSize : 1;
     this.cells = new Map();
   }
 
