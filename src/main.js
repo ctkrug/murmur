@@ -171,9 +171,10 @@ function bindPointer(state, canvas) {
     'touchmove',
     (event) => {
       if (event.touches.length === 0) return;
+      event.preventDefault();
       setPosition(event.touches[0].clientX, event.touches[0].clientY);
     },
-    { passive: true }
+    { passive: false }
   );
 
   canvas.addEventListener('touchend', () => {
