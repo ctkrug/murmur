@@ -39,4 +39,12 @@ describe('applyPreset', () => {
       expect(Number.isFinite(value)).toBe(true);
     }
   });
+
+  it.each(Object.keys(PRESETS))(
+    'the %s preset never overrides world mode or pointer strength',
+    (key) => {
+      expect(PRESETS[key].params).not.toHaveProperty('wrap');
+      expect(PRESETS[key].params).not.toHaveProperty('pointerWeight');
+    }
+  );
 });
