@@ -41,3 +41,32 @@ export function saveParams(storage, params) {
     // Persistence is best-effort; the simulation still runs without it.
   }
 }
+
+/**
+ * Reads a positive integer stored under `key`, falling back to `fallback`
+ * for anything missing, unparseable, zero, negative, or non-finite (e.g. a
+ * hand-edited or corrupted localStorage entry).
+ */
+export function loadSize(storage, key, fallback) {
+  let raw;
+  try {
+    raw = storage.getItem(key);
+  } catch {
+    return fallback;
+  }
+
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+/**
+ * Persists an integer size under `key`, swallowing write failures the same
+ * way saveParams does.
+ */
+export function saveSize(storage, key, size) {
+  try {
+    storage.setItem(key, String(size));
+  } catch {
+    // Persistence is best-effort; the simulation still runs without it.
+  }
+}
