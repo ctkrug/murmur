@@ -20,7 +20,7 @@ export class FpsCounter {
     this.frames += 1;
     const elapsed = timestampMs - this.lastSampleTime;
 
-    if (elapsed >= this.sampleIntervalMs) {
+    if (elapsed > 0 && elapsed >= this.sampleIntervalMs) {
       this.fps = Math.round((this.frames * 1000) / elapsed);
       this.frames = 0;
       this.lastSampleTime = timestampMs;
