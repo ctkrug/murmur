@@ -51,6 +51,12 @@ describe('Flock.setSize', () => {
 });
 
 describe('Flock.step', () => {
+  it('steps without throwing when the flock has no boids', () => {
+    const flock = new Flock(0, BOUNDS);
+    expect(() => flock.step({ active: false })).not.toThrow();
+    expect(flock.boids).toHaveLength(0);
+  });
+
   it('steers a lone boid toward an active attract pointer', () => {
     const flock = new Flock(1, BOUNDS, { pointerWeight: 0.5 });
     const boid = flock.boids[0];
