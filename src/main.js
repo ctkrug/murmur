@@ -96,16 +96,22 @@ function bindWorldMode(state) {
   });
 }
 
+// Form controls (sliders, selects, the buttons themselves) already use Space
+// for their own purpose, so the shortcut only fires when focus is elsewhere.
+const SHORTCUT_EXEMPT_TAGS = new Set(['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON']);
+
 function bindPlaybackControls(state, updateReadouts) {
   const pauseBtn = document.getElementById('pauseBtn');
   const stepBtn = document.getElementById('stepBtn');
   const resetBtn = document.getElementById('resetBtn');
 
+  function togglePause() {
+    state.running = !state.running;
+    if (pauseBtn) pauseBtn.textContent = state.running ? 'Pause' : 'Resume';
+  }
+
   if (pauseBtn) {
-    pauseBtn.addEventListener('click', () => {
-      state.running = !state.running;
-      pauseBtn.textContent = state.running ? 'Pause' : 'Resume';
-    });
+    pauseBtn.addEventListener('click', togglePause);
   }
 
   if (stepBtn) {
@@ -126,6 +132,13 @@ function bindPlaybackControls(state, updateReadouts) {
       );
     });
   }
+
+  window.addEventListener('keydown', (event) => {
+    if (event.code !== 'Space') return;
+    if (SHORTCUT_EXEMPT_TAGS.has(document.activeElement?.tagName)) return;
+    event.preventDefault();
+    togglePause();
+  });
 }
 
 function bindObstacles(state, canvas) {
