@@ -44,8 +44,10 @@ export function saveParams(storage, params) {
 
 /**
  * Reads a positive integer stored under `key`, falling back to `fallback`
- * for anything missing, unparseable, zero, negative, or non-finite (e.g. a
- * hand-edited or corrupted localStorage entry).
+ * for anything missing, unparseable, zero, negative, fractional-to-zero, or
+ * non-finite (e.g. a hand-edited or corrupted localStorage entry). A
+ * fractional value (e.g. "4.9") is floored so callers always get a whole
+ * count, matching Flock#setSize's own flooring behavior.
  */
 export function loadSize(storage, key, fallback) {
   let raw;
@@ -56,7 +58,10 @@ export function loadSize(storage, key, fallback) {
   }
 
   const parsed = Number(raw);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+  if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+
+  const size = Math.floor(parsed);
+  return size > 0 ? size : fallback;
 }
 
 /**
