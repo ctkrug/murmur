@@ -37,6 +37,14 @@ describe('vector', () => {
     expect(length(limited)).toBeCloseTo(5);
   });
 
+  it('limit leaves a vector exactly at the cap unchanged', () => {
+    expect(limit({ x: 5, y: 0 }, 5)).toEqual({ x: 5, y: 0 });
+  });
+
+  it('limit leaves a zero vector unchanged regardless of max', () => {
+    expect(limit({ x: 0, y: 0 }, 5)).toEqual({ x: 0, y: 0 });
+  });
+
   it('computes distance between two points', () => {
     expect(distance({ x: 0, y: 0 }, { x: 3, y: 4 })).toBe(5);
   });
