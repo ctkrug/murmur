@@ -28,9 +28,27 @@ canvas {
   gap: 1.25rem;
 }
 
+.panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
 .panel h1 {
   margin: 0;
   font-size: 1.1rem;
+}
+
+.github-link {
+  font-size: 0.75rem;
+  color: #7dd3fc;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.github-link:hover {
+  text-decoration: underline;
 }
 
 .panel-group {
