@@ -56,4 +56,14 @@ describe('storage', () => {
     saveParams(storage, { ...DEFAULTS, maxSpeed: 7 });
     expect(loadParams(storage, DEFAULTS)).toEqual({ ...DEFAULTS, maxSpeed: 7 });
   });
+
+  it('does not throw when the storage backend rejects writes', () => {
+    const storage = {
+      getItem: () => null,
+      setItem: () => {
+        throw new Error('QuotaExceededError');
+      },
+    };
+    expect(() => saveParams(storage, DEFAULTS)).not.toThrow();
+  });
 });

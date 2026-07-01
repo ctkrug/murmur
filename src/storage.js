@@ -28,6 +28,16 @@ export function loadParams(storage, defaults) {
   return result;
 }
 
+/**
+ * Persists `params` to `storage`, swallowing write failures (e.g. Safari
+ * private browsing throws on `setItem` even for tiny payloads) so a slider
+ * drag never surfaces an uncaught error — losing persistence is acceptable,
+ * crashing the control isn't.
+ */
 export function saveParams(storage, params) {
-  storage.setItem(STORAGE_KEY, JSON.stringify(params));
+  try {
+    storage.setItem(STORAGE_KEY, JSON.stringify(params));
+  } catch {
+    // Persistence is best-effort; the simulation still runs without it.
+  }
 }
