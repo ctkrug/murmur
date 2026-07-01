@@ -1,9 +1,17 @@
 # Boids Playground
 
+[![CI](https://github.com/ctkrug/boids-playground/actions/workflows/ci.yml/badge.svg)](https://github.com/ctkrug/boids-playground/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Runtime dependencies: none](https://img.shields.io/badge/runtime%20deps-none-brightgreen.svg)
+
 An interactive flocking-simulation playground that runs entirely in the browser on a plain
 HTML5 Canvas — no frameworks, no build step, no dependencies. Tune the classic separation,
 alignment, and cohesion weights live and watch hundreds of agents reorganize themselves into
 flocks, streams, and swirling vortices in real time.
+
+![A frame of the boids flocking simulation: cyan arrowhead agents streaming around two red obstacles on a dark canvas](docs/sample-frame.svg)
+
+<sub>An actual frame rendered by the simulation — see [`scripts/render-sample.js`](scripts/render-sample.js).</sub>
 
 ## Why
 
