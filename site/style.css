@@ -1,0 +1,120 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: system-ui, sans-serif;
+}
+
+.layout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+canvas {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 4px;
+}
+
+.panel {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.panel h1 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.github-link {
+  font-size: 0.75rem;
+  color: #7dd3fc;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+}
+
+.panel-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  background: #1e293b;
+  border-radius: 6px;
+}
+
+.panel-group h2 {
+  margin: 0 0 0.25rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.control output {
+  align-self: flex-end;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.control-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.panel-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.panel-buttons {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.panel-group button {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  background: #334155;
+  color: #e2e8f0;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.panel-group button:hover {
+  background: #475569;
+}
+
+.panel-readout {
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}

@@ -11,7 +11,9 @@
   },
   "scripts": {
     "test": "vitest run",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build": "node build.js",
+    "sample": "node scripts/render-sample.js > docs/sample-frame.svg"
   },
   "devDependencies": {
     "eslint": "^9.9.0",
