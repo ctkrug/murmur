@@ -45,16 +45,21 @@ export class Flock {
 
   /**
    * Add or remove boids to match `count` without resetting the rest of the
-   * flock, so a flock-size slider can be adjusted live.
+   * flock, so a flock-size slider can be adjusted live. Non-finite input
+   * (e.g. a stray NaN) is ignored; a negative or fractional count clamps to
+   * a whole non-negative size rather than throwing when assigned to
+   * `boids.length`.
    */
   setSize(count) {
-    const diff = count - this.boids.length;
+    if (!Number.isFinite(count)) return;
+    const target = Math.max(0, Math.floor(count));
+    const diff = target - this.boids.length;
     if (diff > 0) {
       for (let i = 0; i < diff; i += 1) {
         this.boids.push(spawnBoid(this.bounds));
       }
     } else if (diff < 0) {
-      this.boids.length = count;
+      this.boids.length = target;
     }
   }
 

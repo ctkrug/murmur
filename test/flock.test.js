@@ -30,6 +30,24 @@ describe('Flock.setSize', () => {
     flock.setSize(6);
     expect(flock.boids).toHaveLength(6);
   });
+
+  it('clamps a negative count to zero instead of throwing', () => {
+    const flock = new Flock(6, BOUNDS);
+    expect(() => flock.setSize(-3)).not.toThrow();
+    expect(flock.boids).toHaveLength(0);
+  });
+
+  it('floors a fractional count', () => {
+    const flock = new Flock(6, BOUNDS);
+    flock.setSize(4.9);
+    expect(flock.boids).toHaveLength(4);
+  });
+
+  it('ignores a non-finite count', () => {
+    const flock = new Flock(6, BOUNDS);
+    flock.setSize(NaN);
+    expect(flock.boids).toHaveLength(6);
+  });
 });
 
 describe('Flock.step', () => {
