@@ -24,4 +24,11 @@ describe('FpsCounter', () => {
     counter.tick(100);
     expect(counter.frames).toBe(0);
   });
+
+  it('never reports Infinity/NaN when ticks share a timestamp with a zero interval', () => {
+    const counter = new FpsCounter(0);
+    counter.tick(1000);
+    const fps = counter.tick(1000);
+    expect(Number.isFinite(fps)).toBe(true);
+  });
 });
