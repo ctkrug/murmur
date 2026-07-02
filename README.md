@@ -102,3 +102,7 @@ npm test
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+---
+
+More of Charlie's projects → [apps.charliekrug.com](https://apps.charliekrug.com)
